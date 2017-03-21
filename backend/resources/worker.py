@@ -19,6 +19,12 @@ worker_fields = {
 class Worker(Resource):
     @marshal_with(worker_fields)
     def get(self, worker_id=None):
+        parser = reqparse.RequestParser()
+        parser.add_argument('depart_id', type=int, required=False)
+        args = parser.parse_args()
+
+        print args
+
         result = None
         if worker_id is not None:
             result = WorkerHelper.get_by_id(worker_id)
@@ -26,6 +32,9 @@ class Worker(Resource):
             result = WorkerHelper.get_all()
         if result is None:
             abort(404)
+
+        if args['depart_id'] and worker_id is None:
+            result = WorkerHelper.filter_by_department(result, args['depart_id'])
         return result
 
     @marshal_with(worker_fields)

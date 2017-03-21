@@ -14,18 +14,6 @@ def check_token(f):
         return f(token, *args, **kwargs)
     return decorated_function
 
-def require_service(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        flag = r_conn.get('manager:is.enabled')
-        if not flag or flag == 'False':
-            return json.dumps(
-                {'status': 'service not on'}
-            )
-
-        return f(*args, **kwargs)
-    return decorated_function
-
 def format_by_formater(formater, multi=False):
     def real_decorator(f):
         @wraps(f)

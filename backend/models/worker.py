@@ -50,6 +50,16 @@ class WorkerHelper:
         return cursor.fetchall()
 
     @staticmethod
+    def filter_by_department(item_list, depart_id):
+        def in_depart(worker):
+            for depart in worker['departments']:
+                if depart['depart_id'] == depart_id:
+                    return True
+            return False
+
+        return filter(in_depart, item_list)
+
+    @staticmethod
     def create_worker(worker_name, worker_job_id, worker_depart_ids):
         if WorkerHelper.get_by_name(worker_name) is not None:
             return False

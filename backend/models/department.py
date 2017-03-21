@@ -65,20 +65,27 @@ class DepartHelper:
             )
         db.commit()
         # row count为1表示插入成功
-        return cursor.rowcount == 1
+        if cursor.rowcount != 1:
+            return False
+        else:
+            return cursor.lastrowid
 
     @staticmethod
     def modify(depart_id, fields):
         if DepartHelper.get_by_id(depart_id) is None:
             return False
 
-        set_sql = reduce((lambda s1, s2: s1 +',' + s2), ["{}='{}'".format(k, v) for (k, v) in fields])
+        set_sql = reduce(
+            (lambda s1, s2: s1 +',' + s2), 
+            ["{}='{}'".format(k, v) for (k, v) in fields]
+            )
         print set_sql
             
         db = mysql.get_db()
         cursor = db.cursor()
         cursor.execute(
-            "update department set {}".format(set_sql)
+            "update department set {} where id=%s".format(set_sql),
+            (depart_id,)
             )
         db.commit()
         return cursor.rowcount == 1

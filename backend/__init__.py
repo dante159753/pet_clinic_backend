@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
-from flask import Flask
+from flask import Flask, make_response
 from flask_restful import Api
+import json
+
 app = Flask(__name__)
 api = Api(app)
+
+@api.representation('application/json')
+def output_json(data, code, headers=None):
+    resp = make_response(json.dumps(data), code)
+    resp.headers.extend({
+    	"Access-Control-Allow-Origin": '*', 
+    	"Access-Control-Expose-Headers": 'Origin, X-Requested-With, Content-Type, Accept'
+    	})
+    return resp
 
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_PORT'] = 3306
@@ -23,3 +34,6 @@ api.add_resource(User, '/user', '/user/<int:user_id>')
 
 from resources.worker import Worker
 api.add_resource(Worker, '/worker', '/worker/<int:worker_id>')
+
+from resources.department import Depart
+api.add_resource(Depart, '/department', '/department/<int:depart_id>')

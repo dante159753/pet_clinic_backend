@@ -32,6 +32,50 @@ class UserHelper:
         return cursor.fetchall()
 
     @staticmethod
+    def create_user(username, password):
+        if UserHelper.get_by_name(username) is not None:
+            return False
+            
+        db = mysql.get_db()
+        cursor = db.cursor()
+        cursor.execute(
+            "insert into user_account (username, password) "
+            "values (%s, %s)", 
+            (username, password)
+            )
+        db.commit()
+        # row count为1表示插入成功
+        return cursor.rowcount == 1
+
+    @staticmethod
+    def modify_username(user_id, username):
+        if UserHelper.get_by_id(user_id) is None:
+            return False
+            
+        db = mysql.get_db()
+        cursor = db.cursor()
+        cursor.execute(
+            "update user_account set username=%s where id=%s", 
+            (username, user_id)
+            )
+        db.commit()
+        return cursor.rowcount == 1
+
+    @staticmethod
+    def modify_password(user_id, password):
+        if UserHelper.get_by_id(user_id) is None:
+            return False
+            
+        db = mysql.get_db()
+        cursor = db.cursor()
+        cursor.execute(
+            "update user_account set password=%s where id=%s", 
+            (password, user_id)
+            )
+        db.commit()
+        return cursor.rowcount == 1
+
+    @staticmethod
     def check_password(user_name, password):
         cursor = mysql.get_db().cursor()
         cursor.execute(
@@ -40,4 +84,17 @@ class UserHelper:
             )
         return cursor.rowcount == 1
 
+    @staticmethod
+    def delete_by_id(user_id):
+        if UserHelper.get_by_id(user_id) is None:
+            return False
+            
+        db = mysql.get_db()
+        cursor = db.cursor()
+        cursor.execute(
+            "delete from user_account where id=%s", 
+            (user_id,)
+            )
+        db.commit()
+        return cursor.rowcount == 1
 

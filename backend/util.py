@@ -31,10 +31,13 @@ def format_by_formater(formater, multi=False):
         @wraps(f)
         def decorated_function(*args, **kwargs):
             result = f(*args, **kwargs)
-            if multi:
-                return map(lambda x: formater(x), result)
-            else:
-                return formater(result)
+            try:
+                if multi:
+                    return map(lambda x: formater(x), result)
+                else:
+                    return formater(result)
+            except TypeError:
+                return None
         return decorated_function
     return real_decorator
 

@@ -37,4 +37,4 @@ from resources.worker import Worker
 api.add_resource(Worker, '/worker', '/worker/<int:worker_id>')
 
 from resources.department import Depart
-api.add_resource(Depart, '/department', '/department/<int:depart_id>')
+api.add_resource(Depart, '/depart', '/depart/<int:depart_id>')

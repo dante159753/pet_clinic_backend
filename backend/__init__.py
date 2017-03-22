@@ -41,3 +41,6 @@ api.add_resource(Depart, '/depart', '/depart/<int:depart_id>')
 
 from resources.item import Item
 api.add_resource(Item, '/depart/<int:depart_id>/item', '/depart/<int:depart_id>/item/<int:item_id>')
+
+from resources.item import ItemType
+api.add_resource(ItemType, '/item_type', '/item_type/<int:item_type_id>')

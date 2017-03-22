@@ -36,6 +36,76 @@ class ItemTypeHelper:
             )
         return cursor.fetchone()
 
+    @staticmethod
+    @format_by_formater(item_type_formatter)
+    def get_by_name(item_type_name):
+        cursor = mysql.get_db().cursor()
+        cursor.execute(
+            'select item_type.id, item_type.name, item_type.description'
+            ' from item_type'
+            ' where item_type.name=%s', 
+            [item_type_name]
+            )
+        return cursor.fetchone()
+
+    @staticmethod
+    @format_by_formater(item_type_formatter, True)
+    def get_all():
+        cursor = mysql.get_db().cursor()
+        cursor.execute(
+            'select item_type.id, item_type.name, item_type.description'
+            ' from item_type'
+            )
+        return cursor.fetchall()
+
+    @staticmethod
+    def create_item_type(item_type_name, item_type_desc):
+        if ItemTypeHelper.get_by_name(item_type_name) is not None:
+            print 'duplicated item type name'
+            return False
+            
+        db = mysql.get_db()
+        cursor = db.cursor()
+        cursor.execute(
+            "insert into item_type (name, description) "
+            "values (%s, %s)", 
+            (item_type_name, item_type_desc)
+            )
+        db.commit()
+
+        return cursor.rowcount == 1
+
+    @staticmethod
+    def modify(item_type_id, fields):
+        if ItemTypeHelper.get_by_id(item_type_id) is None:
+            return False
+
+        set_sql = reduce((lambda s1, s2: s1 +',' + s2), ["{}='{}'".format(k, v) for (k, v) in fields])
+        print set_sql
+            
+        db = mysql.get_db()
+        cursor = db.cursor()
+        cursor.execute(
+            "update item_type set {} where id=%s".format(set_sql),
+            (item_type_id,)
+            )
+        db.commit()
+        return cursor.rowcount == 1
+
+    @staticmethod
+    def delete_by_id(item_type_id):
+        if ItemTypeHelper.get_by_id(item_type_id) is None:
+            return False
+            
+        db = mysql.get_db()
+        cursor = db.cursor()
+        cursor.execute(
+            "delete from item_type where id=%s", 
+            (item_type_id,)
+            )
+        db.commit()
+        return cursor.rowcount == 1
+
 class ItemHelper:
     @staticmethod
     @format_by_formater(item_formatter, True)

@@ -75,3 +75,9 @@ class Worker(Resource):
             return ''
         else:
             abort(400)
+
+    def options(self, worker_id=None):
+        return '', 200, { 
+            'Access-Control-Allow-Origin': '*', 
+            'Access-Control-Allow-Methods' : 'PUT,GET,POST,DELETE'
+            }

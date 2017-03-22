@@ -77,15 +77,19 @@ class DepartHelper:
 
         set_sql = reduce(
             (lambda s1, s2: s1 +',' + s2), 
-            ["{}='{}'".format(k, v) for (k, v) in fields]
+            ["{}=%s".format(k) for (k, v) in fields]
             )
         print set_sql
+
+        arg_list = [v for (k, v) in fields]
+        arg_list.append(depart_id)
+        print arg_list
             
         db = mysql.get_db()
         cursor = db.cursor()
         cursor.execute(
             "update department set {} where id=%s".format(set_sql),
-            (depart_id,)
+            arg_list
             )
         db.commit()
         return cursor.rowcount == 1

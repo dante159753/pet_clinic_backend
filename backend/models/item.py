@@ -80,14 +80,21 @@ class ItemTypeHelper:
         if ItemTypeHelper.get_by_id(item_type_id) is None:
             return False
 
-        set_sql = reduce((lambda s1, s2: s1 +',' + s2), ["{}='{}'".format(k, v) for (k, v) in fields])
+        set_sql = reduce(
+            (lambda s1, s2: s1 +',' + s2), 
+            ["{}=%s".format(k) for (k, v) in fields]
+            )
         print set_sql
+
+        arg_list = [v for (k, v) in fields]
+        arg_list.append(item_type_id)
+        print arg_list
             
         db = mysql.get_db()
         cursor = db.cursor()
         cursor.execute(
             "update item_type set {} where id=%s".format(set_sql),
-            (item_type_id,)
+            arg_list
             )
         db.commit()
         return cursor.rowcount == 1
@@ -202,14 +209,21 @@ class ItemHelper:
         if ItemHelper.get_by_item_id(item_id) is None:
             return False
 
-        set_sql = reduce((lambda s1, s2: s1 +',' + s2), ["{}='{}'".format(k, v) for (k, v) in fields])
+        set_sql = reduce(
+            (lambda s1, s2: s1 +',' + s2), 
+            ["{}=%s".format(k) for (k, v) in fields]
+            )
         print set_sql
+
+        arg_list = [v for (k, v) in fields]
+        arg_list.append(item_id)
+        print arg_list
             
         db = mysql.get_db()
         cursor = db.cursor()
         cursor.execute(
             "update item set {} where id=%s".format(set_sql),
-            (item_id,)
+            arg_list
             )
         db.commit()
         return cursor.rowcount == 1

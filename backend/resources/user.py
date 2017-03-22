@@ -57,3 +57,9 @@ class User(Resource):
             return ''
         else:
             abort(400)
+
+    def options(self, user_id=None):
+        return '', 200, { 
+            'Access-Control-Allow-Origin': '*', 
+            'Access-Control-Allow-Methods' : 'PUT,GET,POST,DELETE'
+            }

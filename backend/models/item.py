@@ -17,9 +17,9 @@ def item_formatter(t):
 
 def item_type_formatter(t):
     return {
-        'item_type_id': t[3],
-        'item_type_name': t[4],
-        'item_type_desc': t[5]
+        'item_type_id': t[0],
+        'item_type_name': t[1],
+        'item_type_desc': t[2]
     }
 
 
@@ -128,8 +128,8 @@ class ItemHelper:
         return cursor.rowcount == 1
 
     @staticmethod
-    def modify(depart_id, item_id, fields):
-        if ItemHelper.get_by_item_id(depart_id, item_id) is None:
+    def modify(item_id, fields):
+        if ItemHelper.get_by_item_id(item_id) is None:
             return False
 
         set_sql = reduce((lambda s1, s2: s1 +',' + s2), ["{}='{}'".format(k, v) for (k, v) in fields])
@@ -138,22 +138,22 @@ class ItemHelper:
         db = mysql.get_db()
         cursor = db.cursor()
         cursor.execute(
-            "update item set {} where id in ".format(set_sql),
-            (,)
+            "update item set {} where id=%s".format(set_sql),
+            (item_id,)
             )
         db.commit()
         return cursor.rowcount == 1
 
     @staticmethod
-    def delete_by_id(depart_id):
-        if ItemHelper.get_by_id(depart_id) is None:
+    def delete_by_id(item_id):
+        if ItemHelper.get_by_item_id(item_id) is None:
             return False
             
         db = mysql.get_db()
         cursor = db.cursor()
         cursor.execute(
-            "delete from department where id=%s", 
-            (depart_id,)
+            "delete from item where id=%s", 
+            (item_id,)
             )
         db.commit()
         return cursor.rowcount == 1

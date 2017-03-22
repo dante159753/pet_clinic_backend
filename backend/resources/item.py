@@ -40,14 +40,13 @@ class Item(Resource):
     @marshal_with(item_fields)
     def post(self, depart_id):
         parser = reqparse.RequestParser()
-        parser.add_argument('depart_id', required=True, help='depart_id is required')
         parser.add_argument('item_type_id', required=True, help='item_type_id is required')
         parser.add_argument('item_name', required=True, help='item_name is required')
         parser.add_argument('item_desc', required=True, help='item_desc is required')
         args = parser.parse_args()
 
-        if ItemHelper.create_item(args['depart_id'], args['item_type_id'], args['item_name'], args['item_desc']):
-            return ItemHelper.get_by_item_name(args['depart_id'], args['item_name'])
+        if ItemHelper.create_item(depart_id, args['item_type_id'], args['item_name'], args['item_desc']):
+            return ItemHelper.get_by_item_name(depart_id, args['item_name'])
         else:
             abort(400)
 

@@ -11,7 +11,8 @@ def output_json(data, code, headers=None):
     resp = make_response(json.dumps(data), code)
     resp.headers.extend({
     	"Access-Control-Allow-Origin": '*', 
-    	"Access-Control-Expose-Headers": 'Origin, X-Requested-With, Content-Type, Accept'
+    	"Access-Control-Expose-Headers": 'Origin, X-Requested-With, Content-Type, Accept',
+    	"Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD"
     	})
     return resp
 

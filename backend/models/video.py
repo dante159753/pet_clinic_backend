@@ -21,3 +21,12 @@ class VideoHelper:
             [video_id]
             )
         return cursor.fetchone()
+
+    @staticmethod
+    @format_by_formater(video_formatter, True)
+    def get_all():
+        cursor = mysql.get_db().cursor()
+        cursor.execute(
+            'select id, name, address, screenshot from video'
+            )
+        return cursor.fetchall()

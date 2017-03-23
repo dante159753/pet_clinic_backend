@@ -6,16 +6,16 @@ import json
 app = Flask(__name__)
 api = Api(app)
 
-@api.representation('application/json')
-def output_json(data, code, headers=None):
-    resp = make_response(json.dumps(data), code)
-    resp.headers.extend({
-            'Access-Control-Allow-Origin': '*', 
-            'Access-Control-Allow-Methods' : 'PUT,GET,POST,DELETE',
-            'Access-Control-Allow-Headers': 'token',
-            "Access-Control-Expose-Headers": 'Origin, X-Requested-With, Content-Type, Accept, token'
-    	})
-    return resp
+#@api.representation('application/json')
+#def output_json(data, code, headers=None):
+#    resp = make_response(json.dumps(data), code)
+#    resp.headers.extend({
+#            'Access-Control-Allow-Origin': '*', 
+#            'Access-Control-Allow-Methods' : 'PUT,GET,POST,DELETE',
+#            'Access-Control-Allow-Headers': 'token, X-Requested-With',
+#            "Access-Control-Expose-Headers": 'Origin, X-Requested-With, Content-Type, Accept, token'
+#    	})
+#    return resp
 
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_PORT'] = 3306
@@ -56,3 +56,6 @@ api.add_resource(CaseInfo, '/case')
 
 from resources.case import Case
 api.add_resource(Case, '/case/<int:case_id>')
+
+from resources.picture import Picture
+api.add_resource(Picture, '/picture', '/picture/<int:pic_id>')

@@ -25,11 +25,10 @@ class Picture(Resource):
     @marshal_with(picture_fields)
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('pic_name', required=True, help='pic_name is required')
         parser.add_argument('file', required=True, type=werkzeug.datastructures.FileStorage, location='files')
         args = parser.parse_args()
 
-        result = PictureHelper.create(args['pic_name'], args['file'])
+        result = PictureHelper.create(args['file'])
         if result[0]:
             return PictureHelper.get_by_id(result[1])
         else:

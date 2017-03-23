@@ -190,9 +190,6 @@ class ItemHelper:
 
     @staticmethod
     def add_depart_item(depart_id, item_id):
-        if ItemTypeHelper.get_by_id(item_type_id) is None:
-            print 'can not find item type'
-            return False
             
         db = mysql.get_db()
         cursor = db.cursor()

@@ -26,7 +26,7 @@ class Picture(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('pic_name', required=True, help='pic_name is required')
-        parse.add_argument('file', type=werkzeug.datastructures.FileStorage, location='files')
+        parser.add_argument('file', type=werkzeug.datastructures.FileStorage, location='files')
         args = parser.parse_args()
 
         result = PictureHelper.create(args['pic_name'], args['file'])

@@ -76,5 +76,6 @@ class VideoHelper:
         if cursor.rowcount != 1:
             return False, 'insert into db failed'
         else:
-            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], video['video_address']))
+            actual_address = video['video_address'].split('/', 1)[1]
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], actual_address))
             return True, None

@@ -38,10 +38,3 @@ class Video(Resource):
             return ''
         else:
             abort(400)
-
-    def options(self, video_id=None):
-        return '', 200, { 
-            'Access-Control-Allow-Origin': '*', 
-            'Access-Control-Allow-Methods' : 'PUT,GET,POST,DELETE',
-            'Access-Control-Allow-Headers': 'token'
-            }

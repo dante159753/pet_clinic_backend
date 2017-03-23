@@ -45,12 +45,6 @@ class CaseInfo(Resource):
             abort(404)
         return result
 
-    def options(self, item_id=None):
-        return '', 200, { 
-            'Access-Control-Allow-Origin': '*', 
-            'Access-Control-Allow-Methods' : 'PUT,GET,POST,DELETE'
-            }
-
 class Case(Resource):
     @marshal_with(case_fields)
     def get(self, case_id):
@@ -58,10 +52,4 @@ class Case(Resource):
         if result is None:
             abort(404)
         return result
-
-    def options(self, case_id, item_id=None):
-        return '', 200, { 
-            'Access-Control-Allow-Origin': '*', 
-            'Access-Control-Allow-Methods' : 'PUT,GET,POST,DELETE'
-            }
 

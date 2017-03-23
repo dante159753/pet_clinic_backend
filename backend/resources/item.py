@@ -72,12 +72,6 @@ class Item(Resource):
         else:
             abort(400)
 
-    def options(self, depart_id, item_id=None):
-        return '', 200, { 
-            'Access-Control-Allow-Origin': '*', 
-            'Access-Control-Allow-Methods' : 'PUT,GET,POST,DELETE'
-            }
-
 
 class ItemType(Resource):
     @marshal_with(item_type_fields)
@@ -126,9 +120,3 @@ class ItemType(Resource):
             return ''
         else:
             abort(400)
-
-    def options(self, item_type_id=None):
-        return '', 200, { 
-            'Access-Control-Allow-Origin': '*', 
-            'Access-Control-Allow-Methods' : 'PUT,GET,POST,DELETE'
-            }

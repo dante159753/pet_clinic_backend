@@ -66,5 +66,5 @@ api.add_resource(Case, '/case/<int:case_id>')
 from resources.picture import Picture
 api.add_resource(Picture, '/picture', '/picture/<int:pic_id>')
 
-from resources.picture import Video
+from resources.video import Video
 api.add_resource(Video, '/video', '/video/<int:video_id>')

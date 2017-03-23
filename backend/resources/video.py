@@ -24,14 +24,14 @@ class Video(Resource):
     @marshal_with(video_fields)
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('username', required=True, help='username is required')
-        parser.add_argument('password', required=True, help='password is required')
+        parser.add_argument('file', required=True, type=werkzeug.datastructures.FileStorage, location='files')
         args = parser.parse_args()
 
-        if VideoHelper.create_user(args['username'], args['password']):
-            return VideoHelper.get_by_name(args['username'])
+        result = VideoHelper.create(args['file'])
+        if result[0]:
+            return VideoHelper.get_by_id(result[1])
         else:
-            abort(400)
+            abort(400, result[1])
 
     def delete(self, video_id):
         if VideoHelper.delete_by_id(video_id):

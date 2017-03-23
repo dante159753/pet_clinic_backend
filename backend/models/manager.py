@@ -25,7 +25,14 @@ class AuthorityHelper:
         return cursor.fetchone()
 
     @staticmethod
-    @format_by_formater(authority_formatter)
+    @format_by_formater(authority_formatter, True)
+    def get_all():
+        cursor = mysql.get_db().cursor()
+        cursor.execute('select id, description from authority')
+        return cursor.fetchall()
+
+    @staticmethod
+    @format_by_formater(authority_formatter, True)
     def get_by_manager_id(manager_id):
         cursor = mysql.get_db().cursor()
         cursor.execute(
@@ -42,6 +49,18 @@ class AuthorityHelper:
         cursor.execute(
             "insert into manager_auth(manager_id, auth_id) "
             "values(%s, %s)", 
+            (manager_id, auth_id)
+            )
+        db.commit()
+        return cursor.rowcount == 1
+
+    @staticmethod
+    def remove_authority(manager_id, auth_id):
+        db = mysql.get_db()
+        cursor = db.cursor()
+        cursor.execute(
+            "delete from manager_auth "
+            "where manager_id=%s and auth_id=%s", 
             (manager_id, auth_id)
             )
         db.commit()

@@ -42,6 +42,9 @@ api.add_resource(User, '/user', '/user/<int:user_id>')
 from resources.manager import Manager
 api.add_resource(Manager, '/manager', '/manager/<int:manager_id>')
 
+from resources.manager import Authority
+api.add_resource(Authority, '/authority', '/manager/<int:manager_id>/authority')
+
 from resources.worker import Worker
 api.add_resource(Worker, '/worker', '/worker/<int:worker_id>')
 

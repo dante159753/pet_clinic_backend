@@ -58,3 +58,23 @@ class PictureHelper:
             return True, cursor.lastrowid
         else:
             return False, 'invalid extension'
+
+    @staticmethod
+    def delete(picture_id):
+        picture = PictureHelper.get_by_id(picture_id)
+        if not picture:
+            return False, 'can not find picture id'
+
+        db = mysql.get_db()
+        cursor = db.cursor()
+        cursor.execute(
+            "delete from picture "
+            "where id=%s", 
+            (picture_id,)
+            )
+        db.commit()
+        if cursor.rowcount != 1:
+            return False, 'insert into db failed'
+        else:
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], picture['address']))
+            return True, None

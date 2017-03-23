@@ -22,6 +22,8 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = '1324'
 app.config['MYSQL_DATABASE_DB'] = 'petclinic'
 
+app.config['JWT_SECRET'] = 'my_secret'
+
 # connect to mysql
 from flaskext.mysql import MySQL
 mysql = MySQL()

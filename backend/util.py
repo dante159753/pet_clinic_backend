@@ -1,17 +1,26 @@
 # -*- coding: utf-8 -*-
-
 from flask import Blueprint, request, g, url_for
+from flask_restful import abort, reqparse
 from functools import wraps
 import json
+import jwt
+from backend import app
+
+def generate_token(obj):
+    return jwt.encode(obj, app.config['JWT_SECRET'], algorithm='HS256')
 
 def check_token(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         token = request.headers.get('token', '')
-        if len(token) < 6:
-        	return json.dumps({'status': 'require token'}), 401
+        try:
+            obj = jwt.decode(token, app.config['JWT_SECRET'], algorithm='HS256')
+            # check obj TODO
+        	
+        except jwt.InvalidTokenError:
+            abort(401)
 
-        return f(token, *args, **kwargs)
+        return f(*args, **kwargs)
     return decorated_function
 
 def format_by_formater(formater, multi=False):

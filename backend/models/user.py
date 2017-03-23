@@ -76,13 +76,13 @@ class UserHelper:
         return cursor.rowcount == 1
 
     @staticmethod
-    def check_password(user_name, password):
+    def check_password(username, password):
         cursor = mysql.get_db().cursor()
         cursor.execute(
             'select count(*) from user_account where username=%s and password=%s', 
-            (user_name, password)
+            (username, password)
             )
-        return cursor.rowcount == 1
+        return cursor.fetchone()[0] == 1
 
     @staticmethod
     def delete_by_id(user_id):

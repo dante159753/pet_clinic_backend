@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, abort
+from backend.util import generate_token
 from backend.models.user import UserHelper
 
 class Login(Resource):
@@ -10,5 +11,9 @@ class Login(Resource):
         parser.add_argument('is_manager', type=bool, default=False)
         args = parser.parse_args()
 
+        print args
 
-        return str(UserHelper.get_all())
+        if UserHelper.check_password(args['username'], args['password']):
+        	return generate_token(UserHelper.get_by_name(args['username']))
+        else:
+        	return abort(401)

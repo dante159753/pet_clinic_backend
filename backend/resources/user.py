@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask_restful import Resource, fields, marshal_with, abort, reqparse
 from backend.models.user import UserHelper
+from backend.util import check_token
 
 user_fields = {
     'user_id': fields.Integer,
@@ -9,6 +10,7 @@ user_fields = {
 
 class User(Resource):
     @marshal_with(user_fields)
+    @check_token
     def get(self, user_id=None):
         result = None
         if user_id is not None:
@@ -20,6 +22,7 @@ class User(Resource):
         return result
 
     @marshal_with(user_fields)
+    @check_token
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('username', required=True, help='username is required')
@@ -32,6 +35,7 @@ class User(Resource):
             abort(400)
 
     @marshal_with(user_fields)
+    @check_token
     def put(self, user_id):
         parser = reqparse.RequestParser()
         parser.add_argument('username', required=False, help='username is required')
@@ -52,6 +56,7 @@ class User(Resource):
         
         return UserHelper.get_by_id(user_id)
 
+    @check_token
     def delete(self, user_id):
         if UserHelper.delete_by_id(user_id):
             return ''

@@ -122,7 +122,7 @@ class ItemHelper:
             'select item.id, item.name, item.description, item.type_id, '
             'item_type.name, item_type.description'
             ' from item, item_type, depart_item'
-            ' where depart_item.item_type = item_type.id and depart_item.item_id = item.id'
+            ' where item.type_id = item_type.id and depart_item.item_id = item.id'
             '  and depart_item.depart_id=%s', 
             [depart_id]
             )

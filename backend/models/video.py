@@ -11,7 +11,7 @@ def video_formatter(t):
     return {
         'video_id': t[0],
         'video_name': t[1],
-        'video_address': t[2],
+        'video_address': os.path.join('data', t[2]),
         'screenshot': t[3]
     }
 

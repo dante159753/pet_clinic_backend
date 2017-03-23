@@ -40,7 +40,7 @@ class PictureHelper:
         pic_name = file.filename
         ext = pic_name.rsplit('.', 1)[1].lower()
         if '.' in pic_name and ext in PIC_EXTS:
-            new_fname = uuid.uuid4() + '.' + ext
+            new_fname = str(uuid.uuid4()) + '.' + ext
             address = os.path.join('picture', new_fname)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], address))
             

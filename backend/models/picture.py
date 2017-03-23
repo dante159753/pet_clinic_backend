@@ -37,7 +37,7 @@ class PictureHelper:
     @staticmethod
     def create(pic_name, file):
         fname = file.filename
-        address = os.path.join('picture', filename)
+        address = os.path.join('picture', fname)
         if '.' in fname and fname.rsplit('.', 1)[1].lower() in PIC_EXTS:
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], address))
         else:

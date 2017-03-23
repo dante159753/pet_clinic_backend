@@ -2,6 +2,7 @@
 from flask_restful import Resource, reqparse, abort
 from backend.util import generate_token
 from backend.models.user import UserHelper
+from backend.models.manager import ManagerHelper
 
 class Login(Resource):
     def post(self):
@@ -13,7 +14,12 @@ class Login(Resource):
 
         print args
 
-        if UserHelper.check_password(args['username'], args['password']):
-        	return generate_token(UserHelper.get_by_name(args['username']))
+        helper = UserHelper
+
+        if args['is_manager']:
+            helper = ManagerHelper
+
+        if helper.check_password(args['username'], args['password']):
+        	return generate_token(helper.get_by_name(args['username']))
         else:
         	return abort(401)

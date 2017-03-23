@@ -39,6 +39,9 @@ api.add_resource(Login, '/login')
 from resources.user import User
 api.add_resource(User, '/user', '/user/<int:user_id>')
 
+from resources.manager import Manager
+api.add_resource(Manager, '/manager', '/manager/<int:manager_id>')
+
 from resources.worker import Worker
 api.add_resource(Worker, '/worker', '/worker/<int:worker_id>')
 

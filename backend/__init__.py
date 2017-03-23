@@ -58,7 +58,7 @@ from resources.item import ItemType
 api.add_resource(ItemType, '/item_type', '/item_type/<int:item_type_id>')
 
 from resources.case import CaseInfo
-api.add_resource(CaseInfo, '/case')
+api.add_resource(CaseInfo, '/caseinfo', '/caseinfo/<int:case_id>')
 
 from resources.case import Case
 api.add_resource(Case, '/case/<int:case_id>')

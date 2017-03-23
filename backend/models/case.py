@@ -164,12 +164,10 @@ class CaseInfoHelper:
     @staticmethod
     def create_case_info(case_type_id, case_name, case_desc):
         if CaseInfoHelper.get_by_name(case_name) is not None:
-            print 'duplicate case name'
-            return False
+            return False, 'duplicate case name'
 
         if CaseTypeHelper.get_by_id(case_type_id) is None:
-            print 'can not find case type'
-            return False
+            return False, 'can not find case type'
             
         db = mysql.get_db()
         cursor = db.cursor()
@@ -181,14 +179,14 @@ class CaseInfoHelper:
         db.commit()
         # row count为1表示插入成功
         if cursor.rowcount != 1:
-            return False
+            return False, 'insert into db failed'
         else:
-            return cursor.lastrowid
+            return True, cursor.lastrowid
 
     @staticmethod
     def modify(case_id, fields):
         if CaseInfoHelper.get_by_id(case_id) is None:
-            return False
+            return False, 'can not find case_id'
 
         set_sql = reduce(
             (lambda s1, s2: s1 +',' + s2), 
@@ -203,16 +201,16 @@ class CaseInfoHelper:
         db = mysql.get_db()
         cursor = db.cursor()
         cursor.execute(
-            "update item_info set {} where id=%s".format(set_sql),
+            "update case_info set {} where id=%s".format(set_sql),
             arg_list
             )
         db.commit()
-        return cursor.rowcount == 1
+        return cursor.rowcount == 1, None
 
     @staticmethod
     def delete_by_id(case_id):
         if CaseInfoHelper.get_by_id(case_id) is None:
-            return False
+            return False, 'can not find case_id'
             
         db = mysql.get_db()
         cursor = db.cursor()
@@ -221,7 +219,7 @@ class CaseInfoHelper:
             (case_id,)
             )
         db.commit()
-        return cursor.rowcount == 1
+        return cursor.rowcount == 1, None
 
 
 class CasePageHelper:
@@ -281,7 +279,7 @@ class CaseCategoryHelper:
         if cursor.rowcount != 1:
             return False
         else:
-            return True
+            return category_id
 
 
     @staticmethod
@@ -322,6 +320,16 @@ class CaseCategoryHelper:
         db.commit()
         return cursor.rowcount == 1
 
+    @staticmethod
+    def delete_by_case(case_id):
+        for category in CaseInfoHelper.get_by_case_id(case_id):
+            for content in category['category_content']:
+                if not CaseContentHelper.delete_by_id(contnet['case_content_id']):
+                    return False
+            if not CaseCategoryHelper.delete_by_id(category['cate_category_id']):
+                return False
+        return True
+
 
 class CaseContentHelper:
     @staticmethod
@@ -345,15 +353,47 @@ class CaseContentHelper:
         return cursor.fetchall()
 
     @staticmethod
-    def create_case_category(category_id, content_type, content):
-        # TODO
-        pass
+    def create_case_content(category_id, content_type, text, picture, video):
+        if CaseCategoryHelper.get_by_id(category_id) is None:
+            print 'can not find cate category'
+            return False
 
+        sql_content = None # 字段名
+        arg_content = None # 内容
+        if str(content_type) == '1':
+            sql_content = 'text_content'
+            arg_content = text
+        elif str(content_type) == '2':
+            sql_content = 'video_id'
+            arg_content = video
+        elif str(content_type) == '3':
+            sql_content = 'picture_id'
+            arg_content = picture
+            
+        db = mysql.get_db()
+        cursor = db.cursor()
+        cursor.execute(
+            "insert into case_content (content_type, {}) values (%s, %s)".format(sql_content),
+            (category_id, arg_content)
+            )
+        db.commit()
+        # row count为1表示插入成功
+        if cursor.rowcount != 1:
+            return False
+        
+        content_id = cursor.lastrowid
+        cursor.execute(
+            "insert into case_category_content (category_id, content_id) "
+            "values (%s, %s)", 
+            (category_id, content_id)
+            )
+        db.commit()
+        # row count为1表示插入成功
+        if cursor.rowcount != 1:
+            return False
+        else:
+            return content_id
 
-    @staticmethod
-    def modify(content_id, fields):
-        # TODO
-        pass
 
     @staticmethod
     def delete_by_id(content_id):

@@ -35,7 +35,7 @@ class Picture(Resource):
             abort(400, result[1])
 
     def delete(self, pic_id):
-        if PictureHelper.delete_by_id(pic_id):
+        if PictureHelper.delete(pic_id):
             return ''
         else:
             abort(400)

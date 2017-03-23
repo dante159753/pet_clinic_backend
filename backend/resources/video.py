@@ -34,7 +34,7 @@ class Video(Resource):
             abort(400, result[1])
 
     def delete(self, video_id):
-        if VideoHelper.delete_by_id(video_id):
+        if VideoHelper.delete(video_id):
             return ''
         else:
             abort(400)

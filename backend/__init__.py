@@ -44,3 +44,9 @@ api.add_resource(Item, '/depart/<int:depart_id>/item', '/depart/<int:depart_id>/
 
 from resources.item import ItemType
 api.add_resource(ItemType, '/item_type', '/item_type/<int:item_type_id>')
+
+from resources.case import CaseInfo
+api.add_resource(CaseInfo, '/case')
+
+from resources.case import Case
+api.add_resource(Case, '/case/<int:case_id>')

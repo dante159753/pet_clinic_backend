@@ -182,14 +182,14 @@ class ItemHelper:
             print 'insert item failed'
             return False
         item_id = cursor.lastrowid
-        if not ItemHelper.add_depart_item(depart_id, item_id, item_type_id):
+        if not ItemHelper.add_depart_item(depart_id, item_id):
             print 'add depart_item failed'
             return False
 
         return True
 
     @staticmethod
-    def add_depart_item(depart_id, item_id, item_type_id):
+    def add_depart_item(depart_id, item_id):
         if ItemTypeHelper.get_by_id(item_type_id) is None:
             print 'can not find item type'
             return False
@@ -197,9 +197,9 @@ class ItemHelper:
         db = mysql.get_db()
         cursor = db.cursor()
         cursor.execute(
-            "insert into depart_item (depart_id, item_id, item_type) "
-            "values (%s, %s, %s)", 
-            (depart_id, item_id, item_type_id)
+            "insert into depart_item (depart_id, item_id) "
+            "values (%s, %s)", 
+            (depart_id, item_id)
             )
         db.commit()
         return cursor.rowcount == 1

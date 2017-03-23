@@ -76,5 +76,5 @@ class PictureHelper:
         if cursor.rowcount != 1:
             return False, 'insert into db failed'
         else:
-            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], picture['address']))
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], picture['picture_address']))
             return True, None

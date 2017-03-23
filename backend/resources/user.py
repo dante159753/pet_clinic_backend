@@ -67,5 +67,6 @@ class User(Resource):
         return '', 200, { 
             'Access-Control-Allow-Origin': '*', 
             'Access-Control-Allow-Methods' : 'PUT,GET,POST,DELETE',
-            'Access-Control-Allow-Headers': 'token'
+            'Access-Control-Allow-Headers': 'token',
+            "Access-Control-Expose-Headers": 'Origin, X-Requested-With, Content-Type, Accept, token'
             }

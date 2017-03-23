@@ -10,9 +10,10 @@ api = Api(app)
 def output_json(data, code, headers=None):
     resp = make_response(json.dumps(data), code)
     resp.headers.extend({
-    	"Access-Control-Allow-Origin": '*', 
-    	"Access-Control-Expose-Headers": 'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin, Access-Control-Allow-Methods',
-    	"Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE, HEAD"
+            'Access-Control-Allow-Origin': '*', 
+            'Access-Control-Allow-Methods' : 'PUT,GET,POST,DELETE',
+            'Access-Control-Allow-Headers': 'token',
+            "Access-Control-Expose-Headers": 'Origin, X-Requested-With, Content-Type, Accept, token'
     	})
     return resp
 
@@ -22,7 +23,10 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = '1324'
 app.config['MYSQL_DATABASE_DB'] = 'petclinic'
 
+# set jwt secret
 app.config['JWT_SECRET'] = 'my_secret'
+# set upload folder
+app.config['UPLOAD_FOLDER'] = '/root/petclinic/pet_clinic_backend/data'
 
 # connect to mysql
 from flaskext.mysql import MySQL

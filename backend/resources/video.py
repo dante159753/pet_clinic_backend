@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask_restful import Resource, fields, marshal_with, abort, reqparse
 from backend.models.video import VideoHelper
+import werkzeug
 
 video_fields = {
     'video_id': fields.Integer,

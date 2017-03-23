@@ -26,6 +26,15 @@ class PictureHelper:
         return cursor.fetchone()
 
     @staticmethod
+    @format_by_formater(picture_formatter, True)
+    def get_all():
+        cursor = mysql.get_db().cursor()
+        cursor.execute(
+            'select id, name, address, thumbnail from picture'
+            )
+        return cursor.fetchall()
+
+    @staticmethod
     def create(pic_name, file):
         fname = file.filename
         address = os.path.join('picture', filename)

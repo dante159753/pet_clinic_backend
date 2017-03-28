@@ -9,14 +9,14 @@ class Login(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('username', required=True, help='username is required')
         parser.add_argument('password', required=True, help='password is required')
-        parser.add_argument('is_manager', type=bool, default=False)
+        parser.add_argument('is_manager', default=False)
         args = parser.parse_args()
 
         print args
 
         helper = UserHelper
 
-        if args['is_manager']:
+        if args['is_manager'] == 'true':
             helper = ManagerHelper
 
         if helper.check_password(args['username'], args['password']):

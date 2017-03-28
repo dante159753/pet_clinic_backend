@@ -34,7 +34,7 @@ class Manager(Resource):
         parser.add_argument('password', required=True, help='password is required')
         args = parser.parse_args()
 
-        if ManagerHelper.create_user(args['username'], args['password']):
+        if ManagerHelper.create_manager(args['username'], args['password']):
             return ManagerHelper.get_by_name(args['username'])
         else:
             abort(400)

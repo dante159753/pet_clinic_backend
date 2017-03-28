@@ -90,7 +90,7 @@ class ManagerHelper:
         return cursor.fetchall()
 
     @staticmethod
-    def create_manager(username, password, auth_list):
+    def create_manager(username, password, auth_list=None):
         if ManagerHelper.get_by_name(username) is not None:
             return False
             
@@ -106,20 +106,23 @@ class ManagerHelper:
         if cursor.rowcount != 1:
             return False
         else:
-            # get created manager
-            manager = ManagerHelper.get_by_name(username)
-            # success, insert authorities
-            is_success = True
-            for auth_id in auth_list:
-                if AuthorityHelper.get_by_id(auth_id) is not None:
-                    if not AuthorityHelper.add_authority(manager['manager_id'], auth_id):
-                        is_success = False
+            if auth_list:
+                # get created manager
+                manager = ManagerHelper.get_by_name(username)
+                # success, insert authorities
+                is_success = True
+                for auth_id in auth_list:
+                    if AuthorityHelper.get_by_id(auth_id) is not None:
+                        if not AuthorityHelper.add_authority(manager['manager_id'], auth_id):
+                            is_success = False
+                        else:
+                            pass
                     else:
                         pass
-                else:
-                    pass
-
-            return is_success
+    
+                return is_success
+            else:
+                return True
 
     @staticmethod
     def modify_username(manager_id, manager_name):

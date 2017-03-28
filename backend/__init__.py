@@ -57,11 +57,14 @@ api.add_resource(Item, '/depart/<int:depart_id>/item', '/depart/<int:depart_id>/
 from resources.item import ItemType
 api.add_resource(ItemType, '/item_type', '/item_type/<int:item_type_id>')
 
-from resources.case import CaseInfo
+from resources.case import CaseInfo, Case
 api.add_resource(CaseInfo, '/caseinfo', '/caseinfo/<int:case_id>')
-
-from resources.case import Case
 api.add_resource(Case, '/case/<int:case_id>')
+
+from resources.roleplay import RoleplayInfo, RoleplayPage, RoleplayPageInfo
+api.add_resource(RoleplayInfo, '/roleplay')
+api.add_resource(RoleplayPageInfo, '/roleplay/<int:role_id>/pageinfo')
+api.add_resource(RoleplayPage, '/roleplay/<int:role_id>/page', '/roleplay/<int:role_id>/page/<int:pagination>')
 
 from resources.picture import Picture
 api.add_resource(Picture, '/picture', '/picture/<int:pic_id>')

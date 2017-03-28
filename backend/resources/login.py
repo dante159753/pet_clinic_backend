@@ -20,6 +20,7 @@ class Login(Resource):
             helper = ManagerHelper
 
         if helper.check_password(args['username'], args['password']):
-        	return generate_token(helper.get_by_name(args['username']))
+            print helper.get_by_name(args['username'])
+            return generate_token(helper.get_by_name(args['username']))
         else:
-        	return abort(401)
+            return abort(401)

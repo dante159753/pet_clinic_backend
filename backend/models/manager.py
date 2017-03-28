@@ -159,7 +159,7 @@ class ManagerHelper:
             'select count(*) from manager_account where username=%s and password=%s', 
             (manager_name, password)
             )
-        return cursor.rowcount == 1
+        return cursor.fetchone()[0] == 1
 
     @staticmethod
     def delete_by_id(manager_id):

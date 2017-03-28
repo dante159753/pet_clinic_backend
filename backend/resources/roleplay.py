@@ -52,15 +52,26 @@ class RoleplayInfo(Resource):
         parser.add_argument('picture_id', required=True, help='picture_id is required')
         args = parser.parse_args()
 
-        result = RoleplayInfoHelper.create_case_info(
+        result = RoleplayInfoHelper.create_roleplay_info(
             args['role_name'], 
             args['role_desc'], 
             args['depart_id'],
             args['picture_id'],
             )
         if not result[0]:
-            abort(404)
+            print result
+            abort(400)
         return RoleplayInfoHelper.get_by_id(result[1])
+
+
+class RoleplayPageInfo(Resource):
+    @marshal_with(page_info_fields)
+    def get(self, role_id):
+        result = RoleplayPageInfoHelper.get_by_roleid(role_id)
+        if result is None:
+            print 'no role play info'
+            abort(404)
+        return result
 
     @marshal_with(roleplay_info_fields)
     def put(self, role_id):
@@ -85,16 +96,6 @@ class RoleplayInfo(Resource):
             abort(404)
         return ''
 
-
-class RoleplayPageInfo(Resource):
-    @marshal_with(page_info_fields)
-    def get(self, role_id):
-        result = RoleplayPageInfoHelper.get_by_roleid(role_id)
-        if result is None:
-            print 'no role play info'
-            abort(404)
-        return result
-
 class RoleplayPage(Resource):
     @marshal_with(roleplay_page_fields)
     def get(self, role_id, pagination):
@@ -103,7 +104,7 @@ class RoleplayPage(Resource):
             abort(404)
         return result
 
-    @marshal_with(roleplay_info_fields)
+    @marshal_with(page_info_fields)
     def post(self, role_id):
         parser = reqparse.RequestParser()
         parser.add_argument('roleplay_page', required=True, help='roleplay_page is required')
@@ -117,9 +118,9 @@ class RoleplayPage(Resource):
             )
         if not result[0]:
             abort(404)
-        return RoleplayPageHelper.get_by_id(role_id, result[1])
+        return RoleplayPageInfoHelper.get_by_id(result[1])
 
-    @marshal_with(roleplay_page_fields)
+    @marshal_with(page_info_fields)
     def put(self, role_id, pagination):
         parser = reqparse.RequestParser()
         parser.add_argument('roleplay_page', required=True, help='roleplay_page is required')

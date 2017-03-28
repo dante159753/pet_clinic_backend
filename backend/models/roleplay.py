@@ -72,8 +72,8 @@ class RoleplayInfoHelper:
         if RoleplayInfoHelper.get_by_name(role_name) is not None:
             return False, 'duplicate role play name'
 
-        if not PictureHelper.get_by_id(picture_id):
-            return False, 'invalid picture_id'
+        #if not PictureHelper.get_by_id(picture_id):
+        #    return False, 'invalid picture_id'
 
         if not DepartHelper.get_by_id(depart_id):
             return False, 'invalid depart_id'
@@ -176,7 +176,7 @@ class RoleplayPageInfoHelper:
             'select count(*) from role_page where role_id=%s', 
             (role_id,)
             )
-        page_size = curosr.fetchone()[0]
+        page_size = cursor.fetchone()[0]
         print page_size
         # insert role_page
         cursor.execute(

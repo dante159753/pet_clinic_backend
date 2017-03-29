@@ -77,6 +77,8 @@ class RoleplayInfoHelper:
 
         #if not DepartHelper.get_by_id(depart_id):
         #    return False, 'invalid depart_id'
+        if not depart_id :
+            depart_id = 0
             
         db = mysql.get_db()
         cursor = db.cursor()

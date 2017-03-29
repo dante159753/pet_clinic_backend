@@ -415,7 +415,7 @@ class CaseContentHelper:
         cursor = db.cursor()
         cursor.execute(
             "delete from case_content where id=%s", 
-            (category_id,)
+            (content_id,)
             )
         db.commit()
         return cursor.rowcount == 1

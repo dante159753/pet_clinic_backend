@@ -205,7 +205,7 @@ class CaseInfoHelper:
             arg_list
             )
         db.commit()
-        return cursor.rowcount == 1, None
+        return True, None
 
     @staticmethod
     def delete_by_id(case_id):

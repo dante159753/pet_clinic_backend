@@ -4,7 +4,6 @@ from backend.models.case import CaseInfoHelper, CasePageHelper, CaseCategoryHelp
 from .picture import picture_fields
 from .video import video_fields
 import json
-from flask import request
 
 case_type_fields = {
     'case_type_id': fields.String,
@@ -102,22 +101,8 @@ class CaseInfo(Resource):
             abort(404)
         return CaseInfoHelper.get_by_id(case_id)
 
-    @marshal_with(case_info_fields)
     def delete(self, case_id):
-        parser = reqparse.RequestParser()
-        parser.add_argument('case_type_id', required=True, help='case_type_id is required')
-        parser.add_argument('case_name', required=True, help='case_name is required')
-        parser.add_argument('case_desc', required=True, help='case_desc is required')
-        args = parser.parse_args()
-
-        result = CaseInfoHelper.create_case_info(
-            args['case_type_id'], 
-            args['case_name'], 
-            args['case_desc']
-            )
-        if not result[0]:
-            abort(404)
-        return CaseInfoHelper.get_by_id(result[1])
+        return CaseInfoHelper.delete_by_id(case_id)
 
 class Case(Resource):
     @marshal_with(case_fields)

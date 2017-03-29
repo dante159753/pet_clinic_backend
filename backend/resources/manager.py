@@ -86,7 +86,7 @@ class Authority(Resource):
     @check_token
     def put(self, manager_id):
         parser = reqparse.RequestParser()
-        parser.add_argument('auth_list', action='append', required=True, help='auth_list is required')
+        parser.add_argument('auth_list[]', action='append', required=True, help='auth_list is required')
         args = parser.parse_args()
         print args
 
@@ -99,7 +99,7 @@ class Authority(Resource):
             )
 
         origin_set = set(origin_auth_ids)
-        dest_set = set(args['auth_list'])
+        dest_set = set(args['auth_list[]'])
         print origin_set, dest_set
 
         # in desc but not in origin, need to add

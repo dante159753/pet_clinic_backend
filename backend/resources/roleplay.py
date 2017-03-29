@@ -10,8 +10,8 @@ roleplay_info_fields = {
     'role_name': fields.String,
     'role_desc': fields.String,
     'page_size': fields.Integer,
-    'depart_id': fields.Integer,
-    'picture': fields.Integer,
+    'depart_id': fields.String,
+    'picture': fields.String,
 }
 
 page_content = {

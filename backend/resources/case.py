@@ -4,6 +4,7 @@ from backend.models.case import CaseInfoHelper, CasePageHelper, CaseCategoryHelp
 from .picture import picture_fields
 from .video import video_fields
 import json
+from flask import request
 
 case_type_fields = {
     'case_type_id': fields.String,
@@ -50,6 +51,10 @@ class CaseType(Resource):
 class CaseInfo(Resource):
     @marshal_with(case_info_fields)
     def get(self, case_id=None):
+        parser = reqparse.RequestParser()
+        parser.add_argument('case_type_id', required=False)
+        args = parser.parse_args()
+
         result = None
         if case_id:
             result = CaseInfoHelper.get_by_id(case_id)
@@ -58,6 +63,9 @@ class CaseInfo(Resource):
         if result is None:
             print 'no case info'
             abort(404)
+
+        if args['case_type_id'] and case_id is None:
+            result = CaseInfoHelper.filter_by_case_type(result, args['case_type_id'])
         return result
 
     @marshal_with(case_info_fields)

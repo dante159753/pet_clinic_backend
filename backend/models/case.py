@@ -159,7 +159,7 @@ class CaseInfoHelper:
 
     @staticmethod
     def filter_by_case_type(case_list, case_type_id):
-        return filter(lambda case: case['case_type']['case_type_id'] == case_type_id, case_list)
+        return filter(lambda case: int(case['case_type']['case_type_id']) == int(case_type_id), case_list)
 
     @staticmethod
     def create_case_info(case_type_id, case_name, case_desc):

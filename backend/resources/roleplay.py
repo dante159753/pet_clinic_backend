@@ -84,10 +84,12 @@ class RoleplayPageInfo(Resource):
         parser.add_argument('depart_id', dest='depart_id')
         parser.add_argument('picture_id', dest='picture')
         args = parser.parse_args()
+        print args
 
         fields = filter(lambda x: x[1] is not None, args.iteritems())
         result = RoleplayInfoHelper.modify(role_id, fields)
         if not result[0]:
+            print result[1]
             abort(404)
         return RoleplayInfoHelper.get_by_id(role_id)
 

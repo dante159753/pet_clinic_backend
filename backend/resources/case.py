@@ -96,6 +96,7 @@ class CaseInfo(Resource):
         fields = filter(lambda x: x[1] is not None, args.iteritems())
         result = CaseInfoHelper.modify(case_id, fields)
         if not result[0]:
+            print result[1]
             abort(404)
         return CaseInfoHelper.get_by_id(case_id)
 
@@ -131,6 +132,7 @@ class Case(Resource):
         args = parser.parse_args()
 
         if not CaseInfoHelper.get_by_id(case_id):
+            print 'can not find case'
             abort(404)
 
         result = CaseCategoryHelper.delete_by_case(case_id)

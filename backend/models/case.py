@@ -215,11 +215,16 @@ class CaseInfoHelper:
         db = mysql.get_db()
         cursor = db.cursor()
         cursor.execute(
-            "delete from item_info where id=%s", 
+            "delete from case_info where id=%s", 
             (case_id,)
             )
         db.commit()
-        return cursor.rowcount == 1, None
+        if cursor.rowcount != 1
+            return False, 'delete from db failed'
+
+        result = CaseCategoryHelper.delete_by_case(case_id)[0]:
+        if not result[0]:
+            return result;
 
 
 class CasePageHelper:
@@ -317,18 +322,22 @@ class CaseCategoryHelper:
             "delete from case_category where id=%s", 
             (category_id,)
             )
+        cursor.execute(
+            "delete from case_category_content where category_id=%s", 
+            (category_id,)
+            )
         db.commit()
-        return cursor.rowcount == 1
+        return True
 
     @staticmethod
     def delete_by_case(case_id):
-        for category in CaseInfoHelper.get_by_case_id(case_id):
+        for category in CaseCategoryHelper.get_by_case_id(case_id):
             for content in category['category_content']:
                 if not CaseContentHelper.delete_by_id(contnet['case_content_id']):
-                    return False
+                    return False, 'can not delete content'
             if not CaseCategoryHelper.delete_by_id(category['cate_category_id']):
-                return False
-        return True
+                return False, 'can not delete category'
+        return True, None
 
 
 class CaseContentHelper:
@@ -374,7 +383,7 @@ class CaseContentHelper:
         cursor = db.cursor()
         cursor.execute(
             "insert into case_content (content_type, {}) values (%s, %s)".format(sql_content),
-            (category_id, arg_content)
+            (content_type, arg_content)
             )
         db.commit()
         # row count为1表示插入成功

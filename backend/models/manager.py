@@ -163,7 +163,7 @@ class ManagerHelper:
 
     @staticmethod
     def delete_by_id(manager_id):
-        if UserHelper.get_by_id(manager_id) is None:
+        if ManagerHelper.get_by_id(manager_id) is None:
             return False
             
         db = mysql.get_db()

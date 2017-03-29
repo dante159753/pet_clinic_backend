@@ -127,7 +127,7 @@ class Case(Resource):
     @marshal_with(case_fields)
     def put(self, case_id):
         parser = reqparse.RequestParser()
-        parser.add_argument('categories', action='append', required=True, help='categories is required')
+        parser.add_argument('categories[]', action='append', required=True, help='categories is required')
         args = parser.parse_args()
         print args, request.form, request.args
 

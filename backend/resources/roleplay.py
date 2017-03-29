@@ -85,9 +85,10 @@ class RoleplayPageInfo(Resource):
         parser.add_argument('picture_id', dest='picture')
         args = parser.parse_args()
         print args
-        
+
         # remove previous pages
         RoleplayPageInfoHelper.delete_by_role_id(role_id)
+        args['page_size'] = 0
 
         fields = filter(lambda x: x[1] is not None, args.iteritems())
         result = RoleplayInfoHelper.modify(role_id, fields)

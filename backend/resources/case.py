@@ -129,6 +129,7 @@ class Case(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('categories', action='append', required=True, help='categories is required')
         args = parser.parse_args()
+        print args, request.form, request.args
 
         if not CaseInfoHelper.get_by_id(case_id):
             abort(404)

@@ -88,9 +88,10 @@ class Authority(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('auth_list', action='append', required=True, help='auth_list is required')
         args = parser.parse_args()
+        print args
 
         if not ManagerHelper.get_by_id(manager_id):
-            return abort(404, 'can not find manager_id')
+            return abort(404)
 
         origin_auth_ids = map(
             lambda x: str(x['authority_id']), 

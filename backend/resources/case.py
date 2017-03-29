@@ -129,12 +129,11 @@ class Case(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('categories[]', action='append', required=True, help='categories is required')
         args = parser.parse_args()
-        print args, request.form, request.args
 
         if not CaseInfoHelper.get_by_id(case_id):
             abort(404)
 
-        for str_category in args['categories']:
+        for str_category in args['categories[]']:
             try:
                 category = json.loads(str_category)
                 print category

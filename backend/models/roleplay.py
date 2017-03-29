@@ -127,10 +127,11 @@ class RoleplayInfoHelper:
         db = mysql.get_db()
         cursor = db.cursor()
         cursor.execute(
-            "delete from item_info where id=%s", 
+            "delete from role where id=%s", 
             (role_id,)
             )
         db.commit()
+        RoleplayPageInfoHelper.delete_by_role_id(role_id)
         return cursor.rowcount == 1, None
 
 

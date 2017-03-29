@@ -93,6 +93,8 @@ class CaseInfo(Resource):
         parser.add_argument('case_desc', dest='description')
         args = parser.parse_args()
 
+        print args
+
         fields = filter(lambda x: x[1] is not None, args.iteritems())
         result = CaseInfoHelper.modify(case_id, fields)
         if not result[0]:

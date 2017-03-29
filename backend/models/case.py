@@ -224,7 +224,7 @@ class CaseInfoHelper:
             )
         db.commit()
 
-        result = CaseCategoryHelper.delete_by_case(case_id)[0]
+        result = CaseCategoryHelper.delete_by_case(case_id)
         if not result[0]:
             return result;
 

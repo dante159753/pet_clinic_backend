@@ -184,6 +184,7 @@ class RoleplayPageInfoHelper:
             "values (%s, %s, %s)", 
             (role_id, page_title, int(page_size) + 1)
             )
+        RoleplayInfoHelper.modify(role_id, [('page_size', int(page_size) + 1)])
         db.commit()
         page_id = cursor.lastrowid
         for content in contents:

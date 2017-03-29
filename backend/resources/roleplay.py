@@ -85,6 +85,9 @@ class RoleplayPageInfo(Resource):
         parser.add_argument('picture_id', dest='picture')
         args = parser.parse_args()
         print args
+        
+        # remove previous pages
+        RoleplayPageInfoHelper.delete_by_role_id(role_id)
 
         fields = filter(lambda x: x[1] is not None, args.iteritems())
         result = RoleplayInfoHelper.modify(role_id, fields)
@@ -114,9 +117,6 @@ class RoleplayPage(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('roleplay_page', required=True, help='roleplay_page is required')
         args = parser.parse_args()
-
-        # remove previous pages
-        RoleplayPageInfoHelper.delete_by_role_id(role_id)
 
         page = json.loads(args['roleplay_page'])
         result = RoleplayPageInfoHelper.create_page_info(

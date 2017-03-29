@@ -218,9 +218,11 @@ class CaseInfoHelper:
             "delete from case_info where id=%s", 
             (case_id,)
             )
+        cursor.execute(
+            "delete from case_info_category where case_id=%s", 
+            (case_id,)
+            )
         db.commit()
-        if cursor.rowcount != 1
-            return False, 'delete from db failed'
 
         result = CaseCategoryHelper.delete_by_case(case_id)[0]:
         if not result[0]:

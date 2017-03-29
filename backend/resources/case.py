@@ -133,6 +133,11 @@ class Case(Resource):
         if not CaseInfoHelper.get_by_id(case_id):
             abort(404)
 
+        result = CaseInfoHelper.delete_by_id(case_id)[0]
+        if not result[0]:
+            print result[1]
+            abort(500)
+
         for str_category in args['categories[]']:
             try:
                 category = json.loads(str_category)

@@ -218,10 +218,6 @@ class CaseInfoHelper:
             "delete from case_info where id=%s", 
             (case_id,)
             )
-        cursor.execute(
-            "delete from case_info_category where case_id=%s", 
-            (case_id,)
-            )
         db.commit()
 
         result = CaseCategoryHelper.delete_by_case(case_id)
@@ -326,6 +322,10 @@ class CaseCategoryHelper:
             )
         cursor.execute(
             "delete from case_category_content where category_id=%s", 
+            (category_id,)
+            )
+        cursor.execute(
+            "delete from case_info_category where category_id=%s", 
             (category_id,)
             )
         db.commit()

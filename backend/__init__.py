@@ -63,7 +63,7 @@ api.add_resource(Case, '/case/<int:case_id>')
 api.add_resource(CaseType, '/case_type')
 
 from resources.roleplay import RoleplayInfo, RoleplayPage, RoleplayPageInfo
-api.add_resource(RoleplayInfo, '/roleplay')
+api.add_resource(RoleplayInfo, '/roleplay', '/roleplay/<int:role_id>')
 api.add_resource(RoleplayPageInfo, '/roleplay/<int:role_id>/pageinfo')
 api.add_resource(RoleplayPage, '/roleplay/<int:role_id>/page', '/roleplay/<int:role_id>/page/<int:pagination>')
 

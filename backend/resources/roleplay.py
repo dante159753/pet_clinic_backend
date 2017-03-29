@@ -115,6 +115,9 @@ class RoleplayPage(Resource):
         parser.add_argument('roleplay_page', required=True, help='roleplay_page is required')
         args = parser.parse_args()
 
+        # remove previous pages
+        RoleplayPageInfoHelper.delete_by_role_id(role_id)
+
         page = json.loads(args['roleplay_page'])
         result = RoleplayPageInfoHelper.create_page_info(
             role_id, 
@@ -145,9 +148,9 @@ class RoleplayPage(Resource):
             abort(404)
         return RoleplayPageHelper.get_by_pagination(role_id, pagination)
 
-    def delete(self, role_id, pagination):
+    def delete(self, role_id):
         # TODO: add delete logical
-        result = RoleplayInfoHelper.delete_by_id(role_id)
+        result = RoleplayPageInfoHelper.delete_by_role_id(role_id)
         if not result[0]:
-            abort(404)
+            abort(500)
         return ''

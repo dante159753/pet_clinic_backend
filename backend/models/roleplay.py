@@ -75,8 +75,8 @@ class RoleplayInfoHelper:
         #if not PictureHelper.get_by_id(picture_id):
         #    return False, 'invalid picture_id'
 
-        if not DepartHelper.get_by_id(depart_id):
-            return False, 'invalid depart_id'
+        #if not DepartHelper.get_by_id(depart_id):
+        #    return False, 'invalid depart_id'
             
         db = mysql.get_db()
         cursor = db.cursor()
@@ -211,17 +211,40 @@ class RoleplayPageInfoHelper:
     @staticmethod
     def delete(role_id, pagination):
         # TODO: delete all sub infos
-        if RoleplayInfoHelper.get_by_pagination(role_id, pagination) is None:
+        page = RoleplayPageInfoHelper.get_by_pagination(role_id, pagination)
+        if page is None:
             return False, 'can not find page'
             
         db = mysql.get_db()
         cursor = db.cursor()
         cursor.execute(
-            "delete from item_info where role_id=%s and pagination=%s", 
+            "delete from role_page where role_id=%s and pagination=%s", 
             (role_id, pagination,)
             )
+        cursor.execute(
+            "delete from role_page_content where page_id=%s", 
+            (page['page_id'],)
+            )
         db.commit()
-        return cursor.rowcount == 1, None
+        return True, None
+
+
+    @staticmethod
+    def delete_by_role_id(role_id):
+            
+        db = mysql.get_db()
+        cursor = db.cursor()
+        cursor.execute(
+            "delete from item_info where role_id=%s", 
+            (role_id,)
+            )
+        for page_info in RoleplayPageInfoHelper.get_by_roleid(role_id):
+            cursor.execute(
+                "delete from role_page_content where page_id=%s", 
+                (page_info['page_id'],)
+                )
+        db.commit()
+        return True, None
 
 
 class RoleplayPageHelper:

@@ -90,7 +90,7 @@ class RoleplayPageInfo(Resource):
         result = RoleplayInfoHelper.modify(role_id, fields)
         if not result[0]:
             print result[1]
-            abort(404)
+            abort(500)
         return RoleplayInfoHelper.get_by_id(role_id)
 
     @marshal_with(roleplay_info_fields)
@@ -145,7 +145,7 @@ class RoleplayPage(Resource):
             page['page_content']
             )
         if not result[0]:
-            abort(404)
+            abort(500)
         return RoleplayPageHelper.get_by_pagination(role_id, pagination)
 
     def delete(self, role_id):

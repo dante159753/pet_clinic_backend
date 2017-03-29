@@ -114,7 +114,7 @@ class RoleplayInfoHelper:
             arg_list
             )
         db.commit()
-        return cursor.rowcount == 1, None
+        return True, None
 
     @staticmethod
     def delete_by_id(role_id):
@@ -206,7 +206,7 @@ class RoleplayPageInfoHelper:
             (page_title, page['page_id'])
             )
         db.commit()
-        return cursor.rowcount == 1, None
+        return True, None
 
     @staticmethod
     def delete(role_id, pagination):

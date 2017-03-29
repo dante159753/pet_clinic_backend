@@ -235,7 +235,7 @@ class RoleplayPageInfoHelper:
         db = mysql.get_db()
         cursor = db.cursor()
         cursor.execute(
-            "delete from item_info where role_id=%s", 
+            "delete from role_page where role_id=%s", 
             (role_id,)
             )
         for page_info in RoleplayPageInfoHelper.get_by_roleid(role_id):

@@ -36,8 +36,11 @@ roleplay_page_fields = {
 
 class RoleplayInfo(Resource):
     @marshal_with(roleplay_info_fields)
-    def get(self):
-        result = RoleplayInfoHelper.get_all()
+    def get(self, role_id=None):
+        if not role_id:
+            result = RoleplayInfoHelper.get_all()
+        else:
+            result = RoleplayInfoHelper.get_by_id(role_id)
         if result is None:
             print 'no role play info'
             abort(404)

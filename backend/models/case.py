@@ -335,7 +335,7 @@ class CaseCategoryHelper:
     def delete_by_case(case_id):
         for category in CaseCategoryHelper.get_by_case_id(case_id):
             for content in category['category_content']:
-                if not CaseContentHelper.delete_by_id(contnet['case_content_id']):
+                if not CaseContentHelper.delete_by_id(content['case_content_id']):
                     return False, 'can not delete content'
             if not CaseCategoryHelper.delete_by_id(category['cate_category_id']):
                 return False, 'can not delete category'

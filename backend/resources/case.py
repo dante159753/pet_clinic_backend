@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask_restful import Resource, fields, marshal_with, abort, reqparse
-from backend.models.case import CaseInfoHelper, CasePageHelper, CaseCategoryHelper, CaseContentHelper
+from backend.models.case import CaseInfoHelper, CasePageHelper, CaseCategoryHelper, CaseContentHelper, CaseTypeHelper
 from .picture import picture_fields
 from .video import video_fields
 import json
@@ -37,6 +37,15 @@ case_fields = {
     'case_info': fields.Nested(case_info_fields),
     'categories': fields.List(fields.Nested(case_category))
 }
+
+class CaseType(Resource):
+    @marshal_with(case_type_fields)
+    def get(self):
+        result = CaseTypeHelper.get_all()
+        if result is None:
+            print 'no case type info'
+            abort(404)
+        return result
 
 class CaseInfo(Resource):
     @marshal_with(case_info_fields)

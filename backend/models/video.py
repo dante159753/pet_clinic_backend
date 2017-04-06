@@ -49,7 +49,7 @@ class VideoHelper:
             screenshot_name = gene_name + '.jpeg'
             screenshot_address = os.path.join('video', 'screenshot', screenshot_name)
             screenshot = VideoStream(os.path.join(app.config['UPLOAD_FOLDER'], address)).get_frame_at_sec(2).image()
-            screenshot.save(os.path.join(app.config['UPLOAD_FOLDER'], screenshot_name))
+            screenshot.save(os.path.join(app.config['UPLOAD_FOLDER'], screenshot_address))
             
             db = mysql.get_db()
             cursor = db.cursor()

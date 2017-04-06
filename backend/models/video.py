@@ -2,6 +2,7 @@
 
 from backend import mysql, app
 from backend.util import format_by_formater
+from ffvideo import VideoStream
 import os
 import uuid
 
@@ -12,7 +13,7 @@ def video_formatter(t):
         'video_id': t[0],
         'video_name': t[1],
         'video_address': os.path.join('data', t[2]),
-        'screenshot': t[3]
+        'screenshot': os.path.join('data', t[3])
     }
 
 class VideoHelper:
@@ -40,16 +41,22 @@ class VideoHelper:
         video_name = file.filename
         ext = video_name.rsplit('.', 1)[1].lower()
         if '.' in video_name and ext in VIDEO_EXTS:
-            new_fname = str(uuid.uuid4()) + '.' + ext
-            address = os.path.join('video', new_fname)
+            gene_name = str(uuid.uuid4())
+            new_video_name = gene + '.' + ext
+            address = os.path.join('video', new_video_name)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], address))
+
+            screenshot_name = gene_name + '.jpeg'
+            screenshot_address = os.path.join('video', 'screenshot', screenshot_name)
+            screenshot = VideoStream(os.path.join(app.config['UPLOAD_FOLDER'], address)).get_frame_at_sec(2).image()
+            screenshot.save(os.path.join(app.config['UPLOAD_FOLDER'], screenshot_name))
             
             db = mysql.get_db()
             cursor = db.cursor()
             cursor.execute(
-                "insert into video (name, address) "
-                "values (%s, %s)", 
-                (video_name, address)
+                "insert into video (name, address, screenshot) "
+                "values (%s, %s, %s)", 
+                (video_name, address, screenshot_address)
                 )
             db.commit()
             if cursor.rowcount != 1:

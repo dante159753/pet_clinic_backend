@@ -42,7 +42,7 @@ class VideoHelper:
         ext = video_name.rsplit('.', 1)[1].lower()
         if '.' in video_name and ext in VIDEO_EXTS:
             gene_name = str(uuid.uuid4())
-            new_video_name = gene + '.' + ext
+            new_video_name = gene_name + '.' + ext
             address = os.path.join('video', new_video_name)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], address))
 

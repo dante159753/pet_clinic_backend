@@ -13,7 +13,7 @@ def video_formatter(t):
         'video_id': t[0],
         'video_name': t[1],
         'video_address': os.path.join('data', t[2]),
-        'screenshot': os.path.join('data', t[3])
+        'screenshot': os.path.join('data', t[3]) if t[3] else t[3]
     }
 
 class VideoHelper:
